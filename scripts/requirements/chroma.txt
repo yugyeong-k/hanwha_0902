@@ -1,0 +1,5 @@
+# Chroma 벡터DB 연동용 (별도 서버/영속 스토리지로 쓸 때만 설치)
+# chromadb는 kubernetes 클라이언트 등 무거운 부수 의존성을 함께 끌고 오므로 rag.txt에서 분리함
+-r rag.txt
+langchain-chroma
+chromadb

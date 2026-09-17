@@ -1,0 +1,54 @@
+{
+  "lc": 1,
+  "type": "constructor",
+  "id": [
+    "langchain",
+    "schema",
+    "runnable",
+    "RunnableSequence"
+  ],
+  "kwargs": {
+    "first": {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+        "langchain",
+        "prompts",
+        "prompt",
+        "PromptTemplate"
+      ],
+      "kwargs": {
+        "input_variables": [
+          "fruit"
+        ],
+        "template": "{fruit}의 색상은 무엇입니까?",
+        "template_format": "f-string"
+      },
+      "name": "PromptTemplate"
+    },
+    "last": {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+        "langchain",
+        "chat_models",
+        "openai",
+        "ChatOpenAI"
+      ],
+      "kwargs": {
+        "model_name": "gpt-4o-mini",
+        "temperature": 0.0,
+        "openai_api_key": {
+          "lc": 1,
+          "type": "secret",
+          "id": [
+            "OPENAI_API_KEY"
+          ]
+        },
+        "stream_usage": true
+      },
+      "name": "ChatOpenAI"
+    }
+  },
+  "name": "RunnableSequence"
+}

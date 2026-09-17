@@ -1,0 +1,3 @@
+# Streamlit으로 데모/대시보드 만들 때
+-r base.txt
+streamlit

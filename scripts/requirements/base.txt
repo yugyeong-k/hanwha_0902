@@ -1,0 +1,3 @@
+# 모든 폴더 공통으로 필요한 최소 라이브러리
+python-dotenv
+pydantic

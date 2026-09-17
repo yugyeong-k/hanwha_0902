@@ -1,0 +1,4 @@
+# .ipynb 노트북을 VSCode/Jupyter에서 실행할 때 필요
+# (jupyter/jupyterlab 서버를 터미널에서 직접 띄울 게 아니면 ipykernel만으로 충분)
+-r base.txt
+ipykernel

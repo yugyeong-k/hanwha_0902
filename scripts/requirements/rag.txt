@@ -1,0 +1,9 @@
+# RAG(검색 증강 생성) 작업용: langchain.txt 위에 문서 로딩/분할/벡터스토어 추가
+# chromadb처럼 무거운/서버형 벡터DB는 분리했음 -> 필요하면 chroma 템플릿을 추가로 설치
+-r langchain.txt
+langchain-community
+langchain-text-splitters
+faiss-cpu
+pypdf
+beautifulsoup4
+tiktoken

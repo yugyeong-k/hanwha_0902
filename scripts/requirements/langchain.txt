@@ -1,0 +1,6 @@
+# LangChain 기반 체인/챗봇 작업용 (RAG 미포함)
+-r base.txt
+langchain
+langchain-openai
+langchain-anthropic
+langchain-google-genai
