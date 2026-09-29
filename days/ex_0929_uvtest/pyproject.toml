@@ -1,0 +1,19 @@
+[project]
+name = "ex-0929-uvtest"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Yugyeong Kim" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+]
+
+[project.scripts]
+ex-0929-uvtest = "ex_0929_uvtest:main"
+
+[build-system]
+requires = ["uv_build>=0.12.20,<0.13.0"]
+build-backend = "uv_build"
