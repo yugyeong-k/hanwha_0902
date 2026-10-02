@@ -1,0 +1,114 @@
+0
+from dotenv import load_dotenv
+
+load_dotenv()
+=====
+1
+from langchain_chroma import Chroma
+from langchain_core.documents import Document
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_classic.chains.query_constructor.schema import AttributeInfo
+from langchain_classic.retrievers.self_query.base import SelfQueryRetriever
+from langchain_classic.chains.query_constructor.base import get_query_constructor_prompt
+=====
+2
+docs = [
+    Document(
+        page_content="수분 가득한 히알루론산 세럼으로 피부에 수분을 공급합니다.",
+        metadata={"year": 2024, "category": "스킨케어", "user_rating": 4.7},
+    ),
+    Document(
+        page_content="모공을 커버하는 매트한 파운데이션입니다.",
+        metadata={"year": 2023, "category": "메이크업", "user_rating": 4.5},
+    ),
+    Document(
+        page_content="식물성 성분의 저자극 클렌징 오일입니다.",
+        metadata={"year": 2023, "category": "클렌징", "user_rating": 4.8},
+    ),
+    Document(
+        page_content="비타민 C 함유 브라이트닝 크림입니다.",
+        metadata={"year": 2023, "category": "스킨케어", "user_rating": 4.6},
+    ),
+    Document(
+        page_content="선명한 발색의 롱래스팅 립스틱입니다.",
+        metadata={"year": 2024, "category": "메이크업", "user_rating": 4.4},
+    ),
+    Document(
+        page_content="SPF50+/PA++++ 톤업 선크림입니다.",
+        metadata={"year": 2024, "category": "선케어", "user_rating": 4.9},
+    ),
+]
+=====
+3
+vectorstore = Chroma.from_documents(
+    documents = docs,
+    embedding = OpenAIEmbeddings(model="text-embedding-3-small")
+)
+=====
+4
+metadata_field_info = [
+    AttributeInfo(
+        name = "category",
+        description = "화장품 카테고리. 반드시 '스킨케어', '메이크업', '클렌징', '선케어' 중 하나",
+        type = "string",
+    ),
+    AttributeInfo(
+        name="year",
+        description="화장품이 출시된 연도이다.",
+        type="integer",
+    ),
+    AttributeInfo(
+        name="user_rating",
+        description="화장품의 사용자 평점이다. 1점에서 5점 사이의 숫자이다.",
+        type="float",
+    ),
+]
+=====
+5
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+retriever = SelfQueryRetriever.from_llm(
+    llm = llm,
+    vectorstore = vectorstore,
+    document_contents = "화장품 상품의 설명",
+    metadata_field_info = metadata_field_info,
+)
+=====
+6
+query = "2023년에 출시된 스킨케어 제품 중 평점이 4.5 이상인 제품을 찾아줘."
+
+results = retriever.invoke(query)
+
+print(len(results))
+
+for doc in results:
+    print(doc.page_content)
+    print(doc.metadata)
+=====
+7
+for field in metadata_field_info:
+    print(field.name, "|", field.description, "|", field.type)
+=====
+8
+structured_query = retriever.query_constructor.invoke({
+    "query": "2023년에 출시된 스킨케어 제품 중 평점이 4.5 이상인 제품을 찾아줘."
+})
+
+print(structured_query)
+print("검색 필터:", structured_query.filter)
+=====
+9
+from langchain_classic.chains.query_constructor.base import get_query_constructor_prompt
+
+prompt = get_query_constructor_prompt(
+    document_contents="화장품 상품의 설명",
+    attribute_info=metadata_field_info,
+)
+
+response = llm.invoke(
+    prompt.invoke({
+        "query": "카테고리가 스킨케어인 상품을 찾아줘."
+    })
+)
+
+print(response.content)
